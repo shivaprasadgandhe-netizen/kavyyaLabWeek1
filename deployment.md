@@ -7,7 +7,7 @@ This guide provides step-by-step instructions for deploying the Kavya Labs Next.
 ## 1. Prerequisites
 
 Ensure your environment meets the pinned requirements:
-- **Node.js**: `20.x` (LTS, matching `.nvmrc` and `engines` field in `package.json`)
+- **Node.js**: `20.x` or higher (LTS recommended, matching `.nvmrc` and `engines` field in `package.json`)
 - **npm**: `10.x` or higher
 - **Git**: Installed and configured
 
@@ -155,3 +155,17 @@ Before pushing any changes to production, run the following verification checks:
    - For Apex domain (`kavyalabs.ai`): A record pointing to `76.76.21.21`
    - For Subdomain / `www` (`www.kavyalabs.ai`): CNAME record pointing to `cname.vercel-dns.com`
 5. Vercel will automatically issue and renew free SSL certificates via Let's Encrypt.
+
+---
+
+## 6. Error Handling & Diagnostics Architecture
+
+The application includes production-grade, user-friendly error handling:
+
+- **`src/app/error.tsx`**: Route-segment Error Boundary catching runtime errors gracefully. Features:
+  - Clear, reassuring user-facing messaging
+  - **Try Again** button (`reset()`) for instant client recovery without full reload
+  - **Back to Home** safe navigation
+  - Expandable **Technical & Debug Info** drawer with error message, digest ID, and one-click clipboard copy for bug reporting.
+- **`src/app/global-error.tsx`**: Catches errors in the root layout or initialization phase, providing an independent fallback `<html>`/`<body>` recovery screen.
+- **`src/app/not-found.tsx`**: Custom branded 404 page with navigation actions preventing dead-ends.
